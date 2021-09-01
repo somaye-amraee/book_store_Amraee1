@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+<h1>login </h1>
+    <form action = "" method="post" >
+        {% csrf_token %}
+        <label>
+            <input type="text" name="user" placeholder="email..">
+        </label><br><br>
+        <label>
+            <input type="password" name="password" placeholder="شماره کاربری">
+        </label><br><br>
+
+    <button type="submit">login</button>
+    </form>
+<a href="{%url 'reset' %}"> فراموشی رمز عبور</a>
+{% endblock %}

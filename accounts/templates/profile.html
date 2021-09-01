@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{#{% block title %}profile {% endblock %}#}
+{% block content %}
+    <h1>profile</h1>
+    <div class="card" style="width: 30rem;">
+      <div class="card-body">
+
+        <h6 class="card-subtitle mb-2 text-muted">user :{{ profile.user.username }}</h6>
+
+        <h6 class="card-subtitle mb-2 text-muted">اسم:{{ profile.user.first_name }}</h6>
+        <h6 class="card-subtitle mb-2 text-muted">نام خانوادگی :{{ profile.user.last_name }}</h6>
+        <h6 class="card-subtitle mb-2 text-muted">email :{{ profile.user.email }}</h6>
+        <h6 class="card-subtitle mb-2 text-muted">phone :{{ profile.phone }}</h6>
+
+               <h6 class="card-subtitle mb-2 text-muted">address :{{ profile.address.country}},
+          {{ profile.address.state }} ,{{ profile.address.city }} {{ profile.address.street }} ,{{ profile.address.street_2 }}
+          {{ profile.address.postal_code }}</h6>
+
+          <a href="{% url 'update' profile.pk %}" class="btn btn-warning"> Edit  </a>
+            <a href="{% url 'add_address'%}" class="btn btn-warning"> add addresses </a>
+            <a href="{% url 'change'%}" class="btn btn-warning"> change password </a>
+
+      </div>
+    </div>
+
+{% endblock %}
+
