@@ -146,7 +146,7 @@ class UpdateProfile(UpdateView):
     model = Profile
     form_class = ProfileUpdateForm
     template_name = 'update.html'
-    fields = ['fax', 'phone', 'company']
+    # fields = ['fax', 'phone', 'company']
 
     def get_queryset(self):
         return Profile.objects.all()

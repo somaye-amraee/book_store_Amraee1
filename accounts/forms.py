@@ -81,10 +81,10 @@ class ProfileUpdateForm(forms.ModelForm):
         model = Profile
         fields = ['phone','company','fax']
 
-    def __init__(self, *args, **kwargs):
-        address = kwargs.pop('address')
-        super().__init__(*args, **kwargs)
-        self.fields['address'].queryset = Address.objects.filter(pk=address.pk)
+    # def __init__(self, *args, **kwargs):
+    #     address = kwargs.pop('address')
+    #     # super().__init__(*args, **kwargs)
+    #     self.fields['address'].queryset = Address.objects.filter(pk=address.pk)
 
 
 class AddressForm(forms.ModelForm):
