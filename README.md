@@ -1,4 +1,4 @@
-# book_sore_Amraee1
+# book_store_Amraee1
 This is Somaye Amraee BookStore Project.
 In this project a user can login using his email and also can perform the other login requirements.
 The admin, staff and customer accessibility are defined. for example an aadmin can add, delete,edite books'categories, authors.
