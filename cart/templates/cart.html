@@ -7,7 +7,7 @@
     <div class="container">
 
 
-    <table class="table table-dark table-hover">
+    <table class="table table-bordered">
   <thead>
     <tr>
       <th scope="col">#</th>
@@ -65,7 +65,7 @@
         <form action="{% url 'order_create' %}" method="post">
             {% csrf_token %}
             {{ form.as_p }}
-            <button type="submit" class="btn btn-outline-danger " >
+            <button type="submit" class="btn btn-outline-success " >
 ثبت
             </button>
         </form>

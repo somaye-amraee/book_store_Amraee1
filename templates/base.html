@@ -11,14 +11,18 @@
           integrity="sha384-gXt9imSW0VcJVHezoNQsP+TNrjYXoGcrqBZJpry9zJt8PCQjobwmhMGaDHTASo9N" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
 <link rel="stylesheet" type="text/css" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+      <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous" />
+      <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 
   </head>
   <body>
 
 
-   <nav class="navbar navbar-expand-lg navbar-light bg-light">
+   <nav class="navbar navbar-expand-lg navbar-green bg-success ">
+<!--   <nav class="navbar navbar-expand-lg navbar-light bg-light ">-->
+<!--   <nav class="navbar navbar-expand-lg navbar-light bg-light">-->
   <div class="container-fluid">
-    <a class="navbar-brand" href="#">فروشگاه کتاب</a>
+    <a class="navbar-brand" href="#">به فروشگاه کتاب آندیا خوش آمدید</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
@@ -29,7 +33,7 @@
           <a class="nav-link active" aria-current="page" href="{% url 'home' %}">خانه</a>
         </li>
           <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="{% url 'listbook' %}">all</a>
+          <a class="nav-link active" aria-current="page" href="{% url 'listbook' %}">همه</a>
             </li>
 
         <li class="nav-item active ">
@@ -76,8 +80,9 @@
           <a class="dropdown-item" href="{% url 'author_listadmin' %} ">لیست نویسنده</a>
           <a class="dropdown-item" href="{% url 'list_category' %} ">لیست دسته ها</a>
           <a class="dropdown-item" href="{% url 'category_new' %}">اضافه کردن دسته</a>
+            <a class="dropdown-item" href="{% url 'discount_new' %}">اضافه کردن تخفیف</a>
+          <a class="dropdown-item" href="{% url 'discount_view_list' %}">لیست تخفیف</a>
 
-          <a class="dropdown-item" href="#">سابقه سفارشات</a>
         </div>
       </li>
 

@@ -8,7 +8,7 @@
             <div class="row " >
                 <div class="col-sm-6 ">
 
-                    <img src="{{ product.image.url }}" alt="{{ product.title }} " width="645px "
+                    <img src="{{ product.image.url }}" alt="{{ product.title }} " width="300px "
                          style="border-top-right-radius:100px; ">
                 </div>
                 <div class="col-sm-6  ">
@@ -41,8 +41,12 @@
     </div>
 
 {% if user.is_staff %}
-<a href="{% url 'book_edit' product.pk %}" class="btn btn-warning"> Edit  </a>
-    <p><a href="{% url 'book_delete' product.pk %}" class="btn btn-danger" >  Delete  </a></p>
+<!--<a href="{% url 'book_edit' product.pk %}" class="btn btn-success"> ویرایش  </a>-->
+<!--    <p><a href="{% url 'book_delete' product.pk %}" class="btn btn-danger" > حذف </a></p>-->
+
+
+<button type="button" class="btn btn-primary btn-lg"><a href="{% url 'book_edit' product.pk %}"> ویرایش  </a></button>
+<button type="button" class="btn btn-secondary btn-lg"><a href="{% url 'book_delete' product.pk %}" > حذف </a></button>
 
 {% endif %}
 

@@ -13,12 +13,12 @@
     {% csrf_token %}
 <!--    {{ form.as_p }}-->
     {{ form|crispy }}
-    <button type="submit" style="background-color: cornflowerblue">ثبت نام</button>
+    <button type="submit" style="background-color: green">ثبت نام</button>
 </form>
 
     </div>
     <div class="card-footer text-muted">
-        <a href="{%url 'login' %}"> ابا حساب دارید؟</a>
+        <a href="{%url 'login' %}"> ابا عضو سایت هستید؟</a>
     </div>
 </div>
 

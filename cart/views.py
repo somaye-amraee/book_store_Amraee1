@@ -7,7 +7,7 @@ from .models import Cart, CartForm
 from django.contrib.auth.decorators import login_required
 from payment.forms import OrderForm
 
-
+@login_required(login_url='login')
 def cart_detail(request):
     try:
         customer = request.user

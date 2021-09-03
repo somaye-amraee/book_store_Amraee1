@@ -28,6 +28,8 @@ urlpatterns = [
     path('cart/', include('cart.urls')),
     path('payment/', include('payment.urls')),
     path('accounts/', include('django.contrib.auth.urls')),
+    path('discount/', include('discount.urls')),
+
 ]
 
 urlpatterns += staticfiles_urlpatterns()

@@ -1,23 +1,9 @@
-from django.db import models
-
-# Crea
-# ////////////////////////////////////////////////////////////////////
-from django.db import models
-
-# Create your models here.
-
-
-from django.db import models
-
-# Create your models here.
 from django.contrib.auth.base_user import BaseUserManager
 from django.db.models.signals import post_save
 from django.db import models
 from django.contrib.auth.models import AbstractUser
-# Create your models here.
 from django.urls import reverse
 from django_countries.fields import CountryField
-# Create your models here.
 # from accounts.manager import CustomUserManager
 from accounts.manager import CustomUserManager
 
