@@ -10,11 +10,13 @@ from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from .models import Book, Author, Category
 from cart.models import *
-
-
 from django.contrib.auth.mixins import PermissionRequiredMixin
 
 
+
+"""
+بررسی صلاحیت و دسترسی کاربر
+"""
 class UserAccessMixin(PermissionRequiredMixin):
     def dispatch(self, request, *args, **kwargs):
 
@@ -25,14 +27,14 @@ class UserAccessMixin(PermissionRequiredMixin):
 
             return redirect('home')
         return super(UserAccessMixin, self).dispatch(request,*args,**kwargs)
-
-
-# /////////////////////////////////////////////////////////////////
+# ------------------------------------------------------
 
 def home(request):
-
+    """
+    render home
+    """
     categories = Category.get_all_categories()
-    categoryID = request.GET.get(categories)
+    categoryID = request.GET.get('category')
     if categoryID:
         products = Book.get_all_products_by_categoryid(categoryID)
     else:
@@ -40,23 +42,11 @@ def home(request):
 
     data = {'categories': categories, 'products': products}
 
-
     return render(request, 'home.html', data)
-#
-# def home(request):
-#     categories = Category.get_all_categories()
-#     category_id =
-#     products=Book.objects.all()
-#     data={'categories':categories,'products':products}
-#     return render(request,'home.html',data)
-#
-#
 
-#
-# ////////////////////////////////////////////////////////////
+# -----------------------------------------------------------------------------
 
 class BookListView(ListView):
-    # paginate_by = 2
     model = Book
     template_name = 'home.html'
     queryset = Book.objects.order_by('-created_at')
@@ -71,9 +61,8 @@ def BookDetailView(request, slug):
 
 
 """
-search data by title,author
+سرچ نام کتاب ها و نویسنده ها
 """
-
 from django.db.models import Q
 
 
@@ -89,8 +78,10 @@ def SearchBookByTitle(request):
     return render(request,'home.html',context=mydictionary)
 
 
-# ///////////////////////////////////////////////////////
-# add /delete/change/view
+# -----------------------------------
+"""
+افزودن ، حدف و ویرایش کتابها 
+"""
 class BookCreateView(UserAccessMixin, CreateView):
     permission_required = 'book.add_Book'
     permission_denied_message = ' sorry cant access to this page'
@@ -101,7 +92,6 @@ class BookCreateView(UserAccessMixin, CreateView):
 
 class BookUpdateView(UserAccessMixin, UpdateView):
     permission_required = 'book.change_Book'
-    # 'appname.change/add/delete/view_modelname'
     permission_denied_message = ' sorry cant access to this page'
     model = Book
     template_name = 'book_edit.html'
@@ -114,9 +104,11 @@ class BookDeleteView(UserAccessMixin, DeleteView):
     model = Book
     template_name = 'book_delete.html'
     success_url = reverse_lazy('home')
-# /////////////////////////////////////////////////////
+# -----------------------------------------------------------------------
 
-
+"""
+نمایش لیست نویسنده ها
+"""
 class AuthorListViewAdmin(UserAccessMixin,ListView):
     permission_required = ('book.delete_Author','book.view_Author')
     permission_denied_message = ' sorry cant access to this page'
@@ -124,7 +116,9 @@ class AuthorListViewAdmin(UserAccessMixin,ListView):
     template_name = 'all_author_admin.html'
     context_object_name = 'authors'
 
-
+"""
+ایجاد و حدف نویسنده  
+"""
 class AuthorCreateView(CreateView):
     model = Author
     fields = ['full_name']
@@ -139,13 +133,13 @@ class AuthorDeleteView(UserAccessMixin, DeleteView):
     template_name = 'author_delete.html'
     success_url = reverse_lazy('home')
 
-#     /////////////////////////////////////////
+#  _______________________________________________________-
 
 
-# class CategoryCreateView(UserAccessMixin, CreateView):
+"""
+ایجاد و حدف دسته بندی
+"""
 class CategoryCreateView( CreateView):
-    # permission_required = 'book.add_Category'
-    # permission_denied_message = ' sorry cant access to this page'
     model = Category
     fields = ['name']
     template_name = 'category_new.html'
@@ -158,9 +152,11 @@ class CategoryDeleteView(UserAccessMixin, DeleteView):
     template_name = 'category_delete.html'
     success_url = reverse_lazy('home')
 
-# /////////////////////////////////////////////////////////////
+# ------------------------------------------------------------
 
-
+"""
+نمایش لیست کتابها
+"""
 class BookListViewAdmin(UserAccessMixin,ListView):
     permission_required = ('book.delete_Book','book.change_Book','book.view_Book')
     permission_denied_message = ' sorry cant access to this page'
@@ -169,7 +165,9 @@ class BookListViewAdmin(UserAccessMixin,ListView):
     queryset = Book.objects.order_by('-created_at')
     context_object_name = 'products'
 
-
+"""
+نمایش لیست دسته بندی
+"""
 class CategoryListViewAdmin(ListView):
 
     model = Category

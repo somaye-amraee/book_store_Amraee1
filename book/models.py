@@ -1,21 +1,13 @@
 from django.db import models
-
-# Create your models here.
-from django.db import models
-
-# Create your models here.
-from django.db import models
 from django.urls import reverse
 from django_extensions.db.fields import AutoSlugField
 from discount.models import ProductDiscount
 
 
-# Create your models here.
-
 
 class BookManager(models.Manager):
     """
-    a manager that will return active books
+    یک منیجر برای گرفتن کتابهای فعال
     """
 
     def get_active_books(self):
@@ -24,10 +16,8 @@ class BookManager(models.Manager):
 
 class Category(models.Model):
     """
-        model for category
-
-        """
-
+    یک مدل برای دسته بندی
+    """
     class Meta:
         verbose_name = 'دسته بندی'
         verbose_name_plural = "دسته بندی ها"
@@ -48,9 +38,8 @@ class Category(models.Model):
 
 class Author(models.Model):
     """
-        model for authors
-        """
-
+   مدل نویسنده
+    """
     class Meta:
         verbose_name = 'نویسنده'
         verbose_name_plural = "نویسندگان"
@@ -65,9 +54,8 @@ class Author(models.Model):
 
 class Book(models.Model):
     """
-        a model for our books :product
-        """
-
+        مدل کتاب و فیلدهای مربوطه
+    """
     class Meta:
         verbose_name = 'کتاب'
         verbose_name_plural = 'کتاب ها'
@@ -86,12 +74,14 @@ class Book(models.Model):
     slug = AutoSlugField(max_length=200, allow_unicode=True, populate_from=['id', 'title', 'author'], unique=True)
     available = models.BooleanField(verbose_name='موجود/ناموجود', default=True)
 
+    """
+    متد محاسبه قیمت
+    """
     @property
     def total_price(self):
         if not self.discount:
             return self.unit_price
         elif self.discount.discount_type == 'P':
-            # if self.discount.active == True:
             if self.discount.active == True:
                 total = (self.discount.percent_discount * self.unit_price) / 100
                 return int(self.unit_price - total)
@@ -100,7 +90,6 @@ class Book(models.Model):
                 return self.unit_price
 
         elif self.discount.discount_type == 'C':
-            # if self.discount.active == True:
             if self.discount.active == True:
                 return self.unit_price-self.discount.cash_discount
             else:
@@ -129,4 +118,4 @@ class Book(models.Model):
 
     def get_absolute_url(self):
         return reverse('book_detail', args=[str(self.slug)])
-        # return reverse('book_detail', args=[str(self.id)])
+

@@ -1,15 +1,10 @@
 from django.db import models
-
-# Create your models here.
-from django.db import models
-
-# Create your models here.
 from django.utils import timezone
+
 
 class Discount(models.Model):
     """
-
-    a base model for our other discount models
+    a base model for the other discount models
     """
     DISCOUNT_CHOICES = [('C', 'مقداری'), ('P', 'درصدی'),('S','امتیازی')]
     discount_type = models.CharField(choices=DISCOUNT_CHOICES, default='C', max_length=5)
@@ -31,6 +26,9 @@ class Discount(models.Model):
 
 
 class BasketDiscount(Discount):
+    """
+    تخفیه روی سبد
+    """
     class Meta:
         verbose_name = 'تخفیف کددار'
         verbose_name_plural = 'تخفیف های کددار'
@@ -43,7 +41,7 @@ class BasketDiscount(Discount):
 
 class ProductDiscount(Discount):
     """
-    discount in book
+    تخفیف روی کتاب
     """
 
     class Meta:
@@ -52,17 +50,6 @@ class ProductDiscount(Discount):
 
     title = models.CharField('نام تخفیف نقدی', max_length=100, unique=True)
     max_purchase = models.IntegerField(verbose_name='سقف تخفیف', default=0)
-
-    # @property
-    # def cash_discount(self):
-    #     """
-    #     اگر تخفیف از سقف یخفیفی که در نظر گرفتیم بیشتر باشد به ما سقف تخفیفی را بر میگرداند
-    #     :return:
-    #     """
-    #     if self.max_purchase < self.cash_discount:
-    #         self.cash_discount = self.max_purchase
-    #         self.save()
-
 
     def _str_(self):
         return f'{self.title}'

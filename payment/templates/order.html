@@ -5,7 +5,7 @@
        <h4> total price:{{ order.get_price }}</h4>
    <form action="{% url 'coupon_order' order.id %}" method="post">
        {% csrf_token %}
-       {{ form }}
+       {{ forms }}
        <button type="submit" class="btn btn-info">coupon</button>
    </form>
    </div>

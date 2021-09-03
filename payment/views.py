@@ -1,12 +1,8 @@
-from django.shortcuts import render
-
-# Create your views here.
 from django.shortcuts import render,redirect
 from .models import *
 from .forms import OrderForm,CouponForm
 from cart.models import Cart
 from discount.models import BasketDiscount
-# Create your views here.
 from django.views.decorators.http import require_POST
 from django.utils import timezone
 from django.contrib import messages
@@ -25,8 +21,7 @@ cart == prod in cart get
 delete when form checked
 """
 
-# /////////////////////////////////
-# order, created = Order.objects.get_or_create(customer=customer, complete=False)
+# _____________________________________________
 # @login_required(login_url='login')
 def order_create(request):
     try:
@@ -39,11 +34,9 @@ def order_create(request):
         froms = OrderForm(request.POST)
         if froms.is_valid():
             data = froms.cleaned_data
-            # order = Order.objects.create(customer_id=customer.id, email=data['email'],
-            #                             f_name=data['f_name'], l_name=data['l_name'], address=data['address'])
             order = Order.objects.create(customer=customer, email=data['email'],
                                         f_name=data['f_name'], l_name=data['l_name'], address=data['address'])
-            # cart = Cart.objects.filter(customer=customer)
+
             cart = Cart.objects.filter(customer=customer)
             for c in cart:
                 ItemOrder.objects.create(order_id=order.id, customer_id=customer.id,
@@ -53,16 +46,11 @@ def order_create(request):
             return redirect('order_detail', order.id)
 
 
-   # order = Order.objects.create(customer_id=request.user.id,email=data['email'],
-            #                             f_name=data['f_name'],l_name=data['l_name'],address=data['address'])
-            # cart = Cart.objects.filter(customer_id=request.user.id)
 """
 require_POST == if req is post
 use when just post
 check coupon
 """
-
-
 @require_POST
 def coupon_order(request,order_id):
     form = CouponForm(request.POST)
@@ -80,7 +68,10 @@ def coupon_order(request,order_id):
         order.save()
     return redirect('order_detail', order_id)
 
-# ///////////////////////////////////////////
+# ----------------------------------------------------------------
+"""
+متد تاریخچه سفارشات
+"""
 def order_history(request):
     try:
         customer = request.user

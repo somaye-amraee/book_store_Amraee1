@@ -2,17 +2,44 @@
 
 
 {% block content %}
-<h1>login </h1>
-    <form action = "" method="post" >
+<!--<h1>login </h1>-->
+<!--    <form action = "" method="post" >-->
+<!--        {% csrf_token %}-->
+<!--        <label>-->
+<!--            <input type="text" name="user" placeholder="email..">-->
+<!--        </label><br><br>-->
+<!--        <label>-->
+<!--            <input type="password" name="password" placeholder="شماره کاربری">-->
+<!--        </label><br><br>-->
+
+<!--    <button type="submit">login</button>-->
+<!--    </form>-->
+<!--<a href="{%url 'reset' %}"> فراموشی رمز عبور</a>-->
+
+
+
+<div class="card text-center">
+    <div class="card-header">
+      ورود کاربران
+    </div>
+    <div class="card-body">
+
+        <form action = "" method="post" >
         {% csrf_token %}
         <label>
-            <input type="text" name="user" placeholder="email..">
+            <input type="text" name="user" placeholder="کد کاربری">
         </label><br><br>
         <label>
             <input type="password" name="password" placeholder="شماره کاربری">
         </label><br><br>
 
-    <button type="submit">login</button>
+    <button type="submit" style="background-color: cornflowerblue">ورود</button>
     </form>
-<a href="{%url 'reset' %}"> فراموشی رمز عبور</a>
+    </div>
+    <div class="card-footer text-muted">
+        <a href="{%url 'reset' %}"> فراموشی رمز عبور</a>
+        <a href="{%url 'user_register' %}"> ثبت نام</a>
+    </div>
+</div>
+
 {% endblock %}

@@ -1,12 +1,8 @@
 from django.shortcuts import render
-
-# Create your views here.
 from msilib.schema import ListView
-
 from django.shortcuts import render, redirect
 from book.models import Book
 from accounts.models import CustomUser
-# Create your views here.
 from .models import Cart, CartForm
 from django.contrib.auth.decorators import login_required
 from payment.forms import OrderForm
@@ -15,14 +11,13 @@ from payment.forms import OrderForm
 def cart_detail(request):
     try:
         customer = request.user
-        # customer = request.user.id
+
 
     except:
         device = request.COOKIES['device']
         customer, created = CustomUser.objects.get_or_create(device=device)
 
     cart = Cart.objects.filter(customer=customer)
-    # cart = Cart.objects.filter(customer_id=request.user.id)
     form = OrderForm()
     total = 0
     for pro in cart:
@@ -34,20 +29,16 @@ def cart_detail(request):
 
 
 """
-add to the cart
-1-we must now which product to add to the cart == by get and id =get(id=id)
-2- check if product is already in cart to add to or not == filter 
-3- check the users ==>customer_id ==> request.id
+اضافه کرن به کارت
+1-باید بدانیم کدام محصول رو به سبد اضافه کنیم.
+2. با فیلتر چک میکنیم که محصول قبلا در سبد بوده یا خیر.
+3. اعتبار کاربر با ای دی چک میشود.
 - check = 1 == yes exist already
 - check = 0 == NO ==> create
-4- customer chosed == 
-valid form
-to redirect
-
+4- customer chosed ==valid form to redirect
 """
 
-
-# @login_required(login_url='login')
+@login_required(login_url='login')
 def add_cart(request, id):
     url = request.META.get('HTTP_REFERER')
     product = Book.objects.get(id=id)
@@ -59,7 +50,7 @@ def add_cart(request, id):
         device = request.COOKIES['device']
         customer, created = CustomUser.objects.get_or_create(device=device)
 
-    # data = Cart.objects.filter(customer_id=request.user.id, product_id=id)
+
     data = Cart.objects.filter(customer=customer, product_id=product.id)
     if data:
         check = 1
@@ -72,22 +63,18 @@ def add_cart(request, id):
         if froms.is_valid():
             quan = froms.cleaned_data['quantity']
             if check == 1:
-                # shop = Cart.objects.get(customer_id=request.user.id, product_id=id)
                 shop = Cart.objects.get(customer=customer, product_id=id)
                 shop.quantity += quan
 
             else:
-                # Cart.objects.create(customer_id=request.user.id, product_id=id, quantity=quan)
                 Cart.objects.create(customer=customer, product_id=id, quantity=quan)
 
         return redirect(url)
 
 
 """
-remove from cart
+حذف از سبد
 """
-
-
 # @login_required(login_url='login')
 def remove_cart(request, id):
     url = request.META.get('HTTP_REFERER')
@@ -96,11 +83,8 @@ def remove_cart(request, id):
 
 
 """
-
-remove and add  single
+حذف و اضافه سینگل
 """
-
-
 def add_single(request, id):
     url = request.META.get('HTTP_REFERER')
     cart = Cart.objects.get(id=id)
@@ -121,10 +105,4 @@ def remove_single(request,id):
         cart.save()
     return redirect(url)
 
-# ////////////////////////////////////////////////////////////////
-
-
-#
-# class AllOrders(ListView):
-#
-
+# _______________________________________-

@@ -1,30 +1,19 @@
 from django.db import models
-
-# Create your models here.
-from django.db import models
-
-# Create your models here.
-
-
-# from book.models import Book
 from accounts.models import CustomUser, Address
 from book.models import Book
-# from django.contrib.auth.models import User
+
 
 
 class Order(models.Model):
     """
-    a model for orders
+    مدل سفارشات
     """
-
     class Meta:
         verbose_name = 'سفارش'
         verbose_name_plural = 'سفارش های  کاربران'
 
     customer = models.ForeignKey(CustomUser, verbose_name='مشتری',
                                 on_delete=models.CASCADE, related_name='customers')
-    # address = models.ForeignKey(Address, verbose_name='ادرس', related_name='address',
-    #                             on_delete=models.CASCADE )
     address= models.CharField(max_length=150)
     email = models.EmailField()
     f_name = models.CharField(max_length=50)
@@ -47,9 +36,8 @@ class Order(models.Model):
 
 class ItemOrder(models.Model):
     """
-    a model for order detail
+    مدل جزییات سفارش
     """
-
     class Meta:
         verbose_name = 'ایتم سفارش'
         verbose_name_plural = 'ایتم های سفارش'

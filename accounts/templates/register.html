@@ -1,16 +1,25 @@
 {% extends 'base.html' %}
 {% load static %}
-{#{% block title %}#}
-{#register#}
-{#{% endblock title %}#}
-{#{% block css %}#}
-{# <link rel="stylesheet"  href="{% static 'register.css' %}">#}
-{#{% endblock %}#}
+{% load crispy_forms_tags %}
+
 {% block content %}
-<h1>register </h1>
-    <form method="post" novalidate>
-        {% csrf_token %}
-        {{ form.as_p }}
-    <button type="submit">register</button>
-    </form>
+<div class="card text-center">
+    <div class="card-header">
+        ثبت نام
+    </div>
+    <div class="card-body">
+
+<form method="post" novalidate>
+    {% csrf_token %}
+<!--    {{ form.as_p }}-->
+    {{ form|crispy }}
+    <button type="submit" style="background-color: cornflowerblue">ثبت نام</button>
+</form>
+
+    </div>
+    <div class="card-footer text-muted">
+        <a href="{%url 'login' %}"> ابا حساب دارید؟</a>
+    </div>
+</div>
+
 {% endblock %}

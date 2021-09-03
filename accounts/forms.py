@@ -1,20 +1,4 @@
-# from django.contrib.auth.forms import UserCreationForm,UserChangeForm
-# from .models import CustomUser
 
-#
-# class CustomUserCreationForm(UserCreationForm):
-#     class Meta(UserCreationForm):
-#         model = CustomUser
-#         fields = UserCreationForm.Meta.fields + ('email','first_name','last_name')
-#
-#
-# class CustomUserChangeForm(UserChangeForm):
-#     class Meta(UserChangeForm):
-#
-#         model = CustomUser
-#
-#         fields = UserChangeForm.Meta.fields
-# ///////////////////////////////////////////////////
 from django.forms import ModelForm
 from django.contrib.auth.forms import UserCreationForm
 # from django.contrib.auth.models import User
@@ -25,9 +9,6 @@ error = {
     'required': 'این فیلد اجباری است',
     'invalid': 'ایمیل شما نامعتبر است',
 }
-
-
-
 
 
 class UserRegisterForm(UserCreationForm):
@@ -81,13 +62,9 @@ class ProfileUpdateForm(forms.ModelForm):
         model = Profile
         fields = ['phone','company','fax']
 
-    # def __init__(self, *args, **kwargs):
-    #     address = kwargs.pop('address')
-    #     # super().__init__(*args, **kwargs)
-    #     self.fields['address'].queryset = Address.objects.filter(pk=address.pk)
 
 
 class AddressForm(forms.ModelForm):
     class Meta:
         model = Address
-        fields = ['city','postal_code','state','street','street_2']
+        fields = ['country','city','state','street','street_2','postal_code']

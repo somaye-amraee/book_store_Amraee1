@@ -11,16 +11,15 @@ urlpatterns = [
     path('book/<int:pk>/edit/', BookUpdateView.as_view(), name='book_edit'),
     path('book/<int:pk>/delete/', BookDeleteView.as_view(), name='book_delete'),
 
-
     # author
     path('authorlistbook/', AuthorListViewAdmin.as_view(), name='author_listadmin'),
     path('author/new/', AuthorCreateView.as_view(), name='author_new'),
     path('author/<int:pk>/delete/', AuthorDeleteView.as_view(), name='author_delete'),
+
     # category
     path('category/new/', CategoryCreateView.as_view(), name='category_new'),
     path('category/list/',  CategoryListViewAdmin.as_view(), name='list_category'),
     path('category/<int:pk>/delete/', CategoryDeleteView.as_view(), name='category_delete'),
-
 
     ]
 

@@ -1,26 +1,21 @@
+"""
+import here
+"""
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.sites.shortcuts import get_current_site
 from django.shortcuts import render
-
+from django.contrib import messages
 # Create your views here.
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import Group
-
-# eationForm
-from django.shortcuts import render
-
-# from accounts.forms import CustomUserCreationForm
-
-
-# /////////////////////////////////////////////////////////////////
-from django.urls import  reverse
+from django.urls import reverse
 from django.utils.encoding import force_text, force_bytes
 from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
 from django.views import View
-from django.views.generic import UpdateView, CreateView
+from django.views.generic import UpdateView, CreateView, DetailView
 from sqlparse.compat import text_type
 from django.urls import reverse_lazy
-from .forms import UserRegisterForm, UserLoginForm, UserUpdateForm, ProfileUpdateForm
+from .forms import UserRegisterForm, UserLoginForm, UserUpdateForm, ProfileUpdateForm, AddressForm
 from .decorators import allowed_users,admin_only,unauthenticated_user
 from .models import *
 from django.contrib import messages
@@ -31,6 +26,14 @@ from  django.contrib.sites.shortcuts import get_current_site
 from django.contrib.auth.tokens import PasswordResetTokenGenerator
 from django.contrib.auth import views as auth_views
 
+
+
+"""
+global scope
+"""
+
+
+
 class EmailToken(PasswordResetTokenGenerator):
     def _make_hash_value(self, user, timestamp):
         return (text_type(user.is_active)+text_type(user.id)+text_type(timestamp))
@@ -38,6 +41,9 @@ class EmailToken(PasswordResetTokenGenerator):
 email_generator=EmailToken()
 
 
+"""
+a view for signing up users and adding them the customer access level by default
+"""
 @unauthenticated_user
 def user_register(request):
     form = UserRegisterForm()
@@ -47,7 +53,7 @@ def user_register(request):
             # clean
             data = form.cleaned_data
             group = Group.objects.get(name='customer')
-            user = CustomUser.objects.create_user(username=data['username'], email=data['email'],
+            user = CustomUser.objects._create_user(username=data['username'], email=data['email'],
                                      first_name=data['first_name'],
                                      last_name=data['last_name'],
                                      password=data['password2'])
@@ -85,6 +91,9 @@ class RegisterEmail(View):
             return redirect('login')
 
 
+"""
+for loging users
+"""
 
 def user_login(request):
     if request.method == 'POST':
@@ -110,13 +119,15 @@ def user_login(request):
 
 
 
-
-
+"""
+خارج شدن یوزر
+"""
 def user_logout(request):
     logout(request)
     messages.success(request,'با موفقیت خارج شدید', 'warning')
     return redirect('home')
-# //////////////////////////////////////////////////
+#--------------------------------------------------------------
+
 
 @login_required(login_url='login')
 def user_profile(request):
@@ -125,28 +136,11 @@ def user_profile(request):
 
 
 
-# ////////////////////////////////////////
-
-# ResetPassword
-
-
-
-
-# ////////////////////////////////////////////////////
-
-#             return redirect('profile')
-#     else:
-#         user_form =UserUpdateForm(instance=request.user)
-#         profile_form = ProfileUpdateForm(instance=request.user.profile)
-#     context = {'user_form': user_form, 'profile_form':profile_form}
-#     return render(request,'update.html', context)
-
-
 class UpdateProfile(UpdateView):
     model = Profile
     form_class = ProfileUpdateForm
     template_name = 'update.html'
-    # fields = ['fax', 'phone', 'company']
+    success_url = reverse_lazy('profile')
 
     def get_queryset(self):
         return Profile.objects.all()
@@ -154,42 +148,72 @@ class UpdateProfile(UpdateView):
 
 # ///////////////////////
 
+def AddressCreateView(request):
+    if request.method == 'POST':
+        form = AddressForm(request.POST)
+        if form.is_valid():
+            user = request.user
+            country = form.cleaned_data['country']
+            state = form.cleaned_data['state']
+            city = form.cleaned_data['city']
+            street = form.cleaned_data['street']
+            street_2 = form.cleaned_data['street_2']
+            postal_code = form.cleaned_data['postal_code']
+            address = Address(user=user,country=country,state=state,city=city,street=street,
+                              street_2=street_2,postal_code=postal_code)
+            address.save()
+    else:
+        form = AddressForm()
+    context={'form':form}
+    return render(request, 'address_new.html',  context)
+
+#
 
 
-class AddressCreateView(CreateView):
+
+# from django.contrib.auth.mixins import LoginRequiredMixin
+#
+# class AddressCreateView(LoginRequiredMixin,CreateView):
+#     model = Address
+#     template_name = 'address_new.html'
+#     fields = ['country', 'state', 'city', 'street', 'street_2','postal_code']
+#     success_url = reverse_lazy('profile')
+
+
+class UpdateAddress(UpdateView):
     model = Address
-    template_name = 'address_new.html'
-    fields = ['country', 'state', 'city', 'street', 'street_2','postal_code']
+    form_class = AddressForm
+    template_name = 'update.html'
     success_url = reverse_lazy('profile')
 
-# ////////////////////////////////
-from django.contrib.admin.views.decorators import staff_member_required
 
-@staff_member_required
-def staff_register(request):
-    form = UserRegisterForm(request.POST)
-    if request.method == 'POST':
-        form = UserRegisterForm()
-        if form.is_valid():
-            # clean
-            data = form.cleaned_data
-            group = Group.objects.get(name='staff')
+class AddressDeleteView(CreateView):
+    model = Address
+    template_name = 'address_delete.html'
+    success_url = reverse_lazy('profile')
+#
+#
+# def list_address(request):
+#     users=request.user
+#     address=Address.objects.filter(u)
+#     context={}
+#     return render(request, 'address_list.html', context)
 
-            user = CustomUser.objects.create_user(username=data['username'], email=data['email'],
-                                     first_name=data['first_name'],
-                                     last_name=data['last_name'],
-                                     password=data['password2'])
 
-            user.groups.add(group)
-            user.save()
-            messages.success(request, 'account created for',user)
-            return redirect('home')
-    else:
-        form = UserRegisterForm()
-    context = {'form': form}
-    return render(request, 'register.html', context)
+def list_address(request):
+    address= Address.objects.filter(user=request.user
+                                 )
 
-# ////////////////////////////
+    return render(request,'address_list.html',{'address':address})
+
+class AddressDetailView(DetailView):
+    model = Address
+    template_name = 'address_detail.html'
+
+
+"""
+change password phases
+"""
 
 def change_password(request):
     if request.method == 'POST':
@@ -210,6 +234,11 @@ def change_password(request):
     return render(request,'change.html', {'form':form})
 # ///////////////////////////////////////////////////
 
+
+
+"""
+forget password phases
+"""
 
 class ResetPassword (auth_views.PasswordResetView):
     template_name = 'reset.html'

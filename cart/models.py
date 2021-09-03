@@ -12,13 +12,12 @@ from django.forms import ModelForm
 class Cart(models.Model):
 
         """
-       a model for cart
-       customer == which user our cart belongs to
-       product == which product in our cart
-       quantity == how many of each product
-       our status ==> complete or not
+        مدل سبد خرید
+       customer == سبد خرید مربوط به کدام کاربر است
+       product == کدام محصول در سبد خرید است
+       quantity == چه تعداد از هر محصول
+       our status == بررسی تکمیل خرید
         """
-
         class Meta:
             verbose_name = 'سبد خرید'
             verbose_name_plural = 'سبد خرید'
@@ -39,22 +38,9 @@ class Cart(models.Model):
             return str(name)
 
 
-        #     if self.customer.username:
-        #         return self.customer.username
-
-        #
-        # def placeOrder(self):
-        #     self.save()
-        #
-        # @staticmethod
-        # def get_orders_by_customer(customer_id):
-        #     return Cart.objects.filter(customer=customer_id).order_by('-date')
-
-
 class CartForm(ModelForm):
     """
-    a form for out django
-    showing quantity to our users in book detail
+    یک فرم نمایش تعداد کتاب در جزییات کتاب به کاربر
     """
     class Meta:
         model = Cart
